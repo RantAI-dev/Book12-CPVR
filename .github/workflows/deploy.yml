@@ -3,7 +3,7 @@ name: Deploy Hugo Site
 on:
   push:
     branches:
-      - development  # Set to your default branch
+      - dev  # Set to your default branch
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
