@@ -33,4 +33,4 @@ jobs:
             docker pull shirologic/cpvr-test-site:latest
             docker stop cpvr-test-site || true
             docker rm cpvr-test-site || true
-            docker run -d --name cpvr-test-site -p 9800:80 shirologic/cpvr-test-site:latest
+            docker run -d --name cpvr-test-site -p 9080:80 shirologic/cpvr-test-site:latest
