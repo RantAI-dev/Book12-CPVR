@@ -1,0 +1,165 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if eq .enable true }}
+<!-- Hero Start -->
+{{ with .backgroundImage }}
+    {{ $path := .path | default "images" }}
+    {{ $filename := .filename }}
+    {{ $pathDesktop := printf "%s/%s" $path $filename.desktop }}
+    {{ $pathMobile := printf "%s/%s" $path $filename.mobile }}
+        <style>
+            .hero {
+                {{ with $filename.desktop }}
+                    {{ with resources.Get $pathDesktop }}
+                        @media (min-width: 768px) {
+                            background-image: url("{{ .RelPermalink }}");
+                        }
+                    {{ end }}
+                {{ end }}
+                {{ with $filename.mobile }}
+                    {{ with resources.Get $pathMobile }}
+                        background-image: url("{{ .RelPermalink }}");
+                    {{ end }}
+                {{ end }}
+            }
+        </style>
+{{ end }}
+<section id="{{ $sectionTitle }}" class="d-table w-100 overflow-hidden hero">
+    <div class="container">
+        <div class="row mt-5 align-items-center">
+            <div class="col-lg-6 col-md-6">
+                <div class="title-heading">
+                    {{ with .badge }}
+                    <span class="badge {{ if eq .pill true }}rounded-pill{{ end }} bg-{{ if eq .soft true }}soft-{{ else }}hard-{{ end }}{{ .color }} mb-1">{{ .text }}</span>
+                    {{ end }}
+                    <h4 class="heading mt-0 mb-3">
+                        {{ with .titleLogo }}
+                            {{ $path := .path | default "/images" }}
+                            {{ $filename := .filename }}
+                            {{ $height := .height | default "70px" }}
+                            {{ $alt := .alt | default "logo image" }}
+                            {{ $path := printf "%s/%s" $path $filename }}
+                            {{ with $filename }}
+                                <span>
+                                    {{ with $image := resources.Get $path }}
+                                        {{ if eq .MediaType.SubType "svg" }}
+                                            {{ .Content | safeHTML }}
+                                        {{ else }}
+                                            {{ with .Resize (printf "%dx%d webp q85 drawing Lanczos" .Width .Height) }}
+                                                <img src="{{ .RelPermalink }}" alt="{{ $alt }}" height="{{ $height }}">
+                                            {{ end }}
+                                        {{ end }}
+                                    {{ end }}
+                                </span>
+                            {{ end }}
+                        {{ end }}
+                        {{ with .title }}{{ . }}{{ end }}
+                    </h4>
+                    {{ with .subtitle }}
+                    <p style="font-size: 32px; font-weight: bold; color: #3c5fd7;">{{ . | markdownify }}</p>
+                    {{ end }}
+
+                    <div class="mt-3">
+                      <style>
+                          .btn-cardinal {
+                              background-color: #3c5fd7;
+                              color: white;
+                              border-color: #3c5fd7;
+                          }
+                          .btn-cardinal:hover {
+                              background-color: #A3162D; /* Slightly darker for hover */
+                              color: white;
+                              border-color: #A3162D;
+                          }
+                          .btn-outline-cardinal {
+                              color: #3c5fd7;
+                              border-color: #3c5fd7;
+                              background-color: transparent;
+                          }
+                          .btn-outline-cardinal:hover {
+                              background-color: #3c5fd7;
+                              color: white;
+                              border-color: #3c5fd7;
+                          }
+                      </style>
+                  
+                      {{ with .ctaButton }}
+                          <a href="/docs/CPVR" class="btn btn-lg btn-cardinal me-2 mt-2">
+                              {{ with .icon }}
+                                  <span class="material-icons align-middle">{{ . }}</span>
+                              {{ end }}
+                              {{ with .btnText }}
+                                  {{ . }}
+                              {{ end }}
+                          </a>
+                      {{ end }}
+                      {{ with .cta2Button }}
+                          <a href="{{ relLangURL .url }}" class="btn btn-lg btn-outline-cardinal mt-2">
+                              {{ with .icon }}
+                                  <span class="material-icons align-middle">{{ . }}</span>
+                              {{ end }}
+                              {{ with .btnText }}
+                                  {{ . }}
+                              {{ end }}
+                          </a>
+                      {{ end }}
+                  </div>
+                  
+                  {{ with .info }}
+                  <div style="margin-top: 20px;">
+                    <p style="font-size: 16px; font-weight: bold; color: #3c5fd7;">License Information</p>
+                    <div style="padding: 15px; background-color: #f9f9f9; border-left: 5px solid #3c5fd7; margin-bottom: 20px;">
+                        This publication is available under the following terms:
+                        <div style="margin-top: 10px; font-weight: bold; color: #333;">
+                            MIT License
+                            <div style="color: #3c5fd7;">(MIT)</div>
+                        </div>
+                        <p style="margin-top: 10px;">
+                            Permission is hereby granted, free of charge, to any person obtaining a copy of this book and associated documentation files (the "Book"), to deal in the Book without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Book, and to permit persons to whom the Book is furnished to do so, subject to the following conditions:
+                        </p>
+                        <p style="margin-top: 10px;">
+                            The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Book.
+                            <a href="https://opensource.org/licenses/MIT" target="_blank" style="text-decoration: none; color: #0056b3;">Learn more about this license.</a>
+                        </p>
+                        <p style="margin-top: 10px;">
+                            THE BOOK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE BOOK OR THE USE OR OTHER DEALINGS IN THE BOOK.
+                        </p>
+                    </div>
+                  </div>
+                  
+                  {{ end }}                  
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 mt-4 pt-4 mt-sm-0 pt-sm-0">
+                {{ with .image }}
+                    {{ $path := .path | default "images" }}
+                    {{ $filename := .filename }}
+                    {{ $alt := .alt | default "hero image" }}
+                    {{ $boxShadow := .boxShadow | default false }}
+                    {{ $rounded := .rounded | default false }}
+                    {{ $path := printf "%s/%s" $path $filename }}
+                    {{ with $filename }}
+                        <div class="ms-lg-4">
+                            <div class="classic-hero-image">
+                                {{ with $image := resources.Get $path }}
+                                    {{ if eq .MediaType.SubType "svg" }}
+                                        {{ .Content | safeHTML }}
+                                    {{ else }}
+                                        {{ with .Resize (printf "%dx%d webp q85 drawing Lanczos" .Width .Height) }}
+                                            <img src="{{ .RelPermalink }}" class="{{ if $boxShadow }}shadow-lg{{ else }}{{ end }} mx-auto d-block {{ if $rounded }}rounded-top-4{{ else }}{{ end }}" width="375" height= "auto" alt="{{ $alt }}">
+                                        {{ end }}
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                    {{ end }}
+                {{ end }}
+            </div><!--end col-->
+
+        </div><!--end row-->
+    </div> <!--end container-->
+</section><!--end section-->
+<!-- Hero End -->
+{{ end }}
+{{ end }}
