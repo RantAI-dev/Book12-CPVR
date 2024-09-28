@@ -1,4 +1,4 @@
-baseURL = 'https://cpvr.rantai.dev'
+baseURL = 'https://cpvr.shirologic.com'
 languageCode = 'en-us'
 title = 'Computational Physics via Rust'
 
